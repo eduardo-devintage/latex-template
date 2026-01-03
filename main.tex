@@ -1,268 +1,30 @@
-\documentclass{article}
+\documentclass[print]{styledarticle}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% OPTIONS
-\def\printmode{} % comment to disable `print mode`
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% STYLES
-\usepackage{style}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Load packages here! (or at least, before \ProcessPackages)
 \usepackage{extra}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% You can remove this, it's simply things I used to write the demonstration of this template
-\usepackage{lipsum} 
-\newcommand\tkz{Ti\emph{k}Z }
-\usepackage{bm}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProcessPackages
 
+% \newcommand*\runningtitle{}     % Define how title is displayed in header
+% \newcommand*\runningauthor{}    % Define how author is displayed in header
 
-\title{Template}
+\title{Styled Article Class}
 \author{Eduardo Costa Martins}
-% \date{}
+\date{}
 
 \begin{document}
 
-\custommaketitle
+\maketitle
 
-% Try changing the optional argument (default is 2em) to change the width of the abstract
-\begin{abstract}[2em]
-    \lipsum[1][1-6]
+\begin{abstract}[4em]
+    % \lipsum[1][1-6]
+    This styled article class, inspired by the LIPIcs template and the layout of \href{https://github.com/BenjaminGor/Latex_Notes_Tutorial}{Benjamin Gor's tutorial}, was created due to my displeasure of the plain article templates used by many maths and computer science journals. May this class provide a pleasant reading experience for your paper, without distracting from its beautiful contents.
 \end{abstract}
 
-\section{Introduction}
-
-The \verb|style.sty| file takes care of things that affect the look of the document as a whole, mainly environemnts. The \verb|extra.sty| file adds a number of extra commands (e.g. \verb|\NN| for $\NN$) that I use a lot (but maybe you don't, so feel free to clean that up).
-
-You can inspect the files for a glossary of commands/environments that are added. They also make use of the following packages (so you don't need to load them up again):
-\begin{itemize}
-    \item \verb|xcolor|, \verb|graphicx|
-    \item \verb|hyperref|
-    \item \verb|amsmath|, \verb|amssymb|, \verb|amsthm|
-    \item \verb|thmtools|
-    \item \verb|cleveref|
-    \item \verb|mdframed|
-    \item \verb|enumitem| (replaces \verb|enumerate|)
-    \item \verb|changepage|
-    \item \verb|tikz| with the following libraries:
-    \begin{itemize}
-        \item \verb|positioning|
-        \item \verb|quotes|
-        \item \verb|decorations.pathmorphing|
-        \item \verb|arrows.meta|
-        \item \verb|shapes|
-    \end{itemize}
-    \item \verb|leftindex|
-    \item \verb|ifthen|
-    \item \verb|pgfornament|
-    \item \verb|titlesec|
-\end{itemize}
-
-\section{Environments}
-
-There are a bunch of added environments. Definitions, remarks, and examples all behave the same, they have their own counter that persists throughout the document (i.e. does not reset with sections).
-
-\begin{definition}
-    The set $\mathcal{L}_X$ of lists over elements of a set $X$ is defined inductively as follows:
-    \begin{itemize}
-        \item $[]$ is a list over elements of $X$; and
-        \item for all $x\in X, \ell\in\mathcal{L}_X$, $x\triangleright\ell$ is a list over elements of $X$.
-    \end{itemize}
-    So $\mathcal{L}_X$ is constructed by the constant $[]$ and the unary constructors $x\triangleright{}$ (one for each $x\in X$).
-\end{definition}
-
-They also take an optional argument if you want to give them a name (it can be nice to name remarks and examples as well, so the reader understands their purpose).
-
-\begin{definition}[Labelled Transition System]
-A \emph{labelled transition system} is a 4-tuple $\mathcal{L}=(S, \mathcal{A}_\tau, \rightarrow, \iota, \accept{})$ with:
-\begin{itemize}
-    \item $S$ a set of states;
-    \item $\mathcal{A}_\tau$ a set of actions of which $\tau$, the unobservable transition, is an element;
-    \item ${\rightarrow}\subseteq S\times\mathcal{A}_\tau\times S$ a transition relation;
-    \item $\iota\in S$ is the initial state; and
-    \item $\accept{}\subseteq S$ a set of accepting states.
-\end{itemize}    
-\end{definition}
-
-The theorem-like environments all share a counter that resets every section. They also have an optional argument for a name.
-
-\begin{claim}\label{claim:goldbach}
-    Every even number greater than 2 can be expressed as the sum of two (possibly equal) primes.
-\end{claim}
-
-\begin{theorem}
-    Every odd number greater than 5 can be expressed as the sum of three (not necessarily unique) primes.
-\end{theorem}
-\begin{proof}
-    Let $n>5$ be some odd number, i.e. $n=2k+1$ for some $k\in\NN$. We distinguish two cases.
-    \proofsubparagraph{Case 1:} Suppose $n$ is even. Then we have a contradiction!
-    \proofsubparagraph{Case 2:} Otherwise $n$ is odd. Then $n-3$ is even and greater than 2, so by \Cref{claim:goldbach}, $n-3=m_1+m_2$ for prime $m_1, m_2$. Then $n=m_1+m_2+3$ and we are done since 3 is also prime.
-\end{proof}
-
-The \verb|proofsubparagaph| \emph{can} be used outside of the proof environment (I don't know why you would though).
-
-\clearpage
-
-\section{\tkz}
-
-I'm not going to take the time to explain  to you, there's obviously a lot to cover. \Cref{fig:tikz_1} is a \tkz picture that contains elements that I've used in most of my \tkz diagrams. I trust you can understand what's going on from the source code and comments.
-
-\begin{figure}[h]
-\centering
-\begin{tikzpicture}
-    % the styles `snake it`, `node`, and `finalnode` are defined in `extra.sty`
-    
-    % NODES
-    % styles in square brackets
-    % variable (reference) name in parentheses
-    % display name is in braces
-    \node[node] (s) {$s$}; % node style is a simple circle
-    \node[finalnode] (t) [right=of s] {$t$}; % final node is an accepting state
-    % default distance is 1cm
-    \coordinate[left=0.5cm of s] (start); % coordinates don't have display names
-    \node (tp) [below=of t] {$t'$};
-    \node[dot] (u) [below left=1cm and 0.5cm of tp] {}; % how to specify multiple distances
-
-    % EDGES
-    %
-    \draw[-] (s) to (t);
-    \draw[->] (start) to (s);
-    \draw[->] (s) to[loop above, "$a$"] (s);
-    \draw[->, dashed] (t) to[loop right] (t);
-    \draw[-Implies, double equal sign distance] (t) to (tp); % Implies is the name of an arrowhead specifically designed to work with double line
-    % equal sign distance means the spacing between the two lines is equivalent to the distance between the two lines in =
-    \draw[->>, dotted] (tp) to[bend left=45] (s); % argument to bend specifies angle (I think default is 30)
-    \draw[<->, snake it] (tp) to (u);
-\end{tikzpicture}
-\caption{Figure showcasing: coordinates, (final) nodes, dots, dotted lines, dashed lines, snaked lines, double lines, solid lines, arrows, double lines, different arrowheads (none, single, double, bidirectional, implies), labelled transitions, self loops, curved transitions.}
-\label{fig:tikz_1}
-\end{figure}
-
-Alright, now I get to show you some \tkz programming! See, TeX is Turing complete (actually I'm not sure, but it's probably true). That means you can do cool things like in \Cref{fig:tikz_2}, which I actually used in my defence.
-
-% requires package `ifthen`
-% it provides macros for conditional statements since the standard way to do it is
-% a pain in the fucking ass
-\begin{figure}[h]
-\centering
-\begin{tikzpicture}
-    % NODES
-    \foreach \x [remember=\x as \lastx] in {0,1,...,3} {
-        \ifthenelse{\x = 0}{
-            \node[node] (p\x) {};
-            \node[finalnode, draw=blue] (q\x) [below=of p\x] {};
-            \draw[->, color=blue] (p\x) to (q\x);
-        }{
-            \node[node, draw=red] (p\x) [right=of p\lastx]{};
-            \node[node, draw=blue] (q\x) [right=of q\lastx] {};
-            
-            \draw[->, color=red] (p\lastx) to (p\x);
-            \draw[->, color=blue] (p\x) to [bend right] (q\x);
-            \draw[->, color=red] (q\x) to [bend right] (p\x);
-            \draw[->, color=blue] (q\x) to (q\lastx);
-        }
-    }
-    
-    \coordinate[left=0.5cm of p0] (init);
-    \draw[->] (init) to (p0);
-    
-    \node (pdots) [right=of p3] {$\dots$};
-    \node (qdots) [right=of q3] {$\dots$};
-    \draw[->, color=red] (p3) to (pdots);
-    \draw[->, color=blue] (qdots) to (q3);
-\end{tikzpicture}    
-\caption{Figure showcasing coloured edges and transitions, and for loops. The diagram depicts a coin toss game: each transition is a non-deterministic coin toss, either heads or tails. Each state is coloured depending on the result of the previous coin toss, red if tails, blue if heads. The game is won by tossing more heads than tails. The game cannot be captured by a finite automaton; it requires a notion of memory!}
-\label{fig:tikz_2}
-\end{figure}
-The remaining figures don't really show anything new, but more examples are useful!
-\begin{figure}[ht]
-\centering
-\begin{tikzpicture}
-    % A
-    % NODES
-    \node[finalnode] (roota) {};
-    \node[node] (nonfinal) [right=of roota] {};
-    \coordinate[left=0.5cm of roota] (inita);
-
-    % EDGES
-    \draw[->] (inita) to (roota);
-    \draw[->] (roota) to["$coin$"]  (nonfinal);
-    \draw[->] (nonfinal) to [bend left=30, "$tea$"] (roota);
-    \draw[->] (nonfinal) to [bend right=60, "$coffee$" above] (roota);
-
-    % B
-    % NODES
-    \node[node] (coffee) [right=of nonfinal] {};
-    \node[finalnode] (rootb) [right=of coffee] {};
-    \coordinate[above=0.5cm of rootb] (initb);
-    \node[node] (tea) [right=of rootb] {};
-
-    % EDGES
-    \draw[->] (initb) to (rootb);
-    \draw[->] (rootb) to["$coin$"]  (tea);
-    \draw[->] (rootb) to["$coin$" above] (coffee);
-    \draw[->] (tea) to [bend left=30, "$tea$"] (rootb);
-    \draw[->] (coffee) to [bend right=30, "$coffee$" below] (rootb);
-    
-\end{tikzpicture}
-\caption{Are these two vending machines the same? As automata? Are they the same in a practical sense?}
-\label{fig:vending}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}[
-    node distance=1.25cm
-    ]    
-        % NODES
-        \node[dot, label=left:$p$] (p1) {};
-        \node[dot, label=right:$q$] (q1) [right=of p1] {};
-        \node[dot, label=left:$p'$] (pp1) [below=of p1] {};
-        
-        \node[dot, label=left:$p$] (p2) [right=2cm of q1] {};
-        \node[dot, label=right:$q$] (q2) [right=of p2] {};
-        \node[dot, label=left:$p'$] (pp2) [below=of p2] {};
-        \node[dot, label=right:$q''$] (qqq2) [below=of q2] {};
-        \node[dot, label=right:$q'$] (qq2) [below=of qqq2] {};
-
-        % EDGES
-        \draw[->] (p1) to["$\tau$" left] (pp1);
-        \draw[dashed] (p1) to (q1);
-        \draw[dashed] (pp1) to (q1);
-        
-        \draw[->] (p2) to["$a$" left] (pp2);
-        \draw[dashed] (p2) to (q2);
-        \draw[->>] (q2) to (qqq2);
-        \draw[dashed] (p2) to (qqq2);
-        \draw[->] (qqq2) to["$a$"] (qq2);
-        \draw[dashed] (pp2) to (qq2);        
-    \end{tikzpicture}
-    \caption{You can put node labels to the side of the node. This figure describes a branching bisimulation.}
-    \label{fig:bbisim}
-\end{figure}
-
-\begin{figure}
-\centering
-\begin{tikzpicture}
-    % NODES
-    \node[finalnode, ellipse] (p) {$p;q$};
-    \coordinate [left=0.5cm of p] (initp);
-    \node[node] (p1) [above right=0.5cm and 1cm of p] {};
-    \node[finalnode] (p2) [below right=0.5cm and 1cm of p] {};
-    
-    \node[node] (q1) [right=of p2] {};
-    
-    % EDGES
-    \draw[->] (initp) to (p);
-    \draw[->] (p) to ["$a$" above left] (p1);
-    \draw[->] (p) to ["$a$" below left] (p2);
-    
-    \draw[->] (p2) to ["$b$"] (q1);
-\end{tikzpicture}
-\caption{You can use an ellipse if the label of a state is particularly wide (like $p;q$). Here, $p;q$ is the sequential composition of $p$ and $q$, where $p=a.\bm{0}+a.\bm{1}+\bm{1}$ and $q=b.\bm{0}+\bm{1}$.}
-\label{fig:sequential_composition}
-\end{figure}
+\input{description}
 
 \end{document}

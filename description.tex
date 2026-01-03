@@ -1,0 +1,97 @@
+\newcommand\tkz{Ti\emph{k}Z}
+
+\section{Introduction}
+
+This is a template that I use to draft articles. The \verb|styledarticle| class defines the look of the document. The \verb|extra| style contains additional commands that I personally make frequent use of---feel free to delete it. The rest of the description is focused on the changes made by the \verb|styledarticle| class.
+
+The class is organised so that you may inspect its implementation and see the packages that it imports by default. The class has `support' for the \verb|algpseudocode| and \verb|algorithm| packages. These packages are only supported if they are loaded before the \verb|ProcessPackages| command is called in the preamble.
+
+\section{Documentation}
+
+This section is organised as follows:
+\begin{itemize}
+    \item \Cref{ssec:options} details options for the class.
+    \item \Cref{ssec:environments} details environments defined by the class.
+    \item \Cref{ssec:sectioning} details information related to sectioning, headers and footers, the title.
+    \item \Cref{ssec:support} describes how the class interacts with the supported packages.
+\end{itemize}
+
+\subsection{Options}\label{ssec:options}
+
+So far, the only custom option is \verb|print|, which modifies the style of the document to be more printer-friendly, i.e. use black and white, and use less ink. The style of the document is designed to suit the print mode---the document may not look good when using the default, non-print mode of the class since it is not being updated until the print mode achieves its final look.
+
+All other options are passed down to the standard \verb|article| class that this class uses.
+
+\subsection{Environments}\label{ssec:environments}
+
+The class defines two main kinds of environments, theorem-like environments, and definition-like environments. The class also modifies the abstract environment.
+
+The theorem-like environments are as follows: \verb|theorem|, \verb|proposition|, \verb|lemma|, \verb|claim|, \verb|conjecture|, \verb|corollary|, and \verb|invariant|. All share the same counter except for the invariant environment, which has its own counter. The theorem-like environments have an optional argument for a label.
+
+\begin{theorem}
+    Foobar.
+\end{theorem}
+
+\begin{theorem}[Label]
+    Foobar.
+\end{theorem}
+
+The definition-like environments are \verb|definition|, \verb|example|, and \verb|remark|. These each have their own counter, and an optional argument for a label. The definition-like environments draw a box to encapsulate the text. The background colour of this box may be accessed by the \verb|boxbg| colour.
+
+\begin{example}
+    The \tkz figure below uses \verb|boxbg| for the background colour of the circle, to achieve a transparent effect.
+    \begin{center}
+    \begin{tikzpicture}
+        \node[draw, fill=boxbg, circle, thick, minimum size=6mm] (circle) {};
+    \end{tikzpicture}
+    \end{center}
+\end{example}
+
+\begin{remark}[Label]
+    Foobar.
+\end{remark}
+
+The abstract environment accepts an optional argument describing the size of the left and right margins for the abstract. The default value is \verb|4em|.
+\begin{abstract}[12em]
+    This abstract has a left and right margin of \verb|12em|, each, making this a very narrow abstract, indeed.
+\end{abstract}
+
+\subsection{Sectioning}\label{ssec:sectioning}
+
+Two commands, \verb|runningtitle| and \verb|runningauthor| define how the title and authors are displayed in the header. If left undefined, then they are defined by the \verb|title| and \verb|author| commands, automatically.
+
+The \verb|proofsubparagraph| is intended to section parts of a proof. It can be used outside of the proof environment, however.
+
+\proofsubparagraph{Example} This is what a \verb|proofsubparagraph| looks like.
+
+\subsection{Package Support}\label{ssec:support}
+
+The class supports the \verb|algpseudocode| package by redefining the look of the keywords. Moreover, it defines a few new commands, as demonstrated in \Aref{alg:sample}.
+
+\begin{algorithm}
+\caption{Sample Algorithm.}
+\begin{algorithmic}[1]
+    \Let{x}{y}\Comment{\texttt{\textbackslash Let\{\}\{\}}}
+    \LineComment{This comment is made using \texttt{\textbackslash LineComment\{\}}}
+    \Ternary{x}{y}{b}{z}\Comment{\texttt{\textbackslash Ternary\{\}\{\}\{\}\{\}}}\label{alg:sample}
+    \Break\Comment{\texttt{\textbackslash Break}}
+\end{algorithmic}
+\end{algorithm}
+
+Lastly, the \verb|Aref| command and its single and double starred versions may be used to reference an algorithm, algorithm and line number, or just line number, respectively. See \Cref{tab:aref}.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|c}
+        \texttt{\textbackslash Aref} & \Aref{alg:sample}\\
+        \hline
+        \texttt{\textbackslash Aref*} & \Aref*{alg:sample}\\
+        \hline
+        \texttt{\textbackslash Aref**} & \Aref**{alg:sample}
+    \end{tabular}
+    \caption{Demonstration of \texttt{Aref}.}
+    \label{tab:aref}
+\end{table}
+
+The \verb|algorithm| package is also supported, by changing the look of the caption. You may receive an \verb|Unused \captionsetup[ruled]| warning. This simply states that the caption style used by the \verb|algorithm| float is unused. In essence, this means the \verb|algorithm| package is not being used.
+
+% TODO: Example algorithm
